@@ -1,56 +1,56 @@
-import React from 'react'
-import { Field } from 'react-final-form'
-import { makeStyles } from '@material-ui/core/styles'
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
 
 const makeClasses = makeStyles((theme) => ({
   wrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
     paddingTop: theme.spacing(0.5),
     paddingBottom: theme.spacing(0.5)
   },
   caption: {
-    fontWeight: '800',
+    fontWeight: "700",
     fontSize: 14,
     width: 200
   },
   label: {
-    fontSize: '14px'
+    fontSize: "14px"
   }
-}))
+}));
 
 const Label = ({
   name,
+  expr,
   caption,
+  context,
+  children,
   visible = true,
   containerStyle = {},
   captionStyle = {},
-  labelStyle = {},
-  expr
+  labelStyle = {}
 }) => {
-  if (!visible) return null
+  if (!visible) return null;
 
-  const classes = makeClasses()
+  const classes = makeClasses();
+
+  let value = children;
+  if (context && name) {
+    value = typeof expr === "function" ? expr(context) : context[name];
+  }
 
   return (
-    <Field name={name}>
-      {({ input, values }) => (
-        <div className={classes.wrapper} style={{ ...containerStyle }}>
-          {caption && (
-            <label className={classes.caption} style={{ ...captionStyle }}>
-              {caption}
-            </label>
-          )}
-          <label className={classes.label} style={{ ...labelStyle }}>
-            {typeof expr === 'function'
-              ? expr(input.value, values)
-              : input.value}
-          </label>
-        </div>
+    <div className={classes.wrapper} style={{ ...containerStyle }}>
+      {caption && (
+        <label className={classes.caption} style={{ ...captionStyle }}>
+          {caption}
+        </label>
       )}
-    </Field>
-  )
-}
+      <label className={classes.label} style={{ ...labelStyle }}>
+        {value}
+      </label>
+    </div>
+  );
+};
 
-export default Label
+export default Label;

@@ -44,7 +44,8 @@ const styles = {
   center: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "center"
   }
 };
 

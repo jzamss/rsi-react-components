@@ -14,8 +14,8 @@ const Modal = ({ caption, children, open, onAccept, onCancel, showActions=true }
         {children}
         {showActions &&
           <ActionBar>
-            <Button variant="text" caption="Cancel" onClick={onCancel} />
-            <Button caption="OK" onClick={onAccept} />
+            <Button variant="text" caption="Cancel" action={onCancel} />
+            <Button caption="OK" action={onAccept} />
           </ActionBar>
         }
       </DialogContent>

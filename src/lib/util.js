@@ -31,3 +31,53 @@ export const groupBy = (list, key) => {
     return rv;
   }, {});
 };
+
+export const getCurrentYear = () => {
+  const currDate = new Date();
+  return currDate.getFullYear();
+};
+
+export const integerRangeToArray = (from, to) => {
+  const range = [];
+  for (let i = from; i <= to; i++) {
+    range.push(i);
+  }
+  return range;
+};
+
+export const getUrlParameter = (location, key) => {
+  const params = new URLSearchParams(location.search);
+  return params.get(key);
+};
+
+export const getDuration = (from, to, unit = "d") => {
+  if (!from) return "";
+  const start = from ? dayjs(from) : dayjs(new Date());
+  const end = to ? dayjs(to) : dayjs(new Date());
+  return end.diff(start, unit);
+};
+
+
+export const dateAdd = (duration, unit = "d") => {
+  dayjs().add(duration, unit);
+  return dayjs.toISOString();
+};
+
+export const formatDate = (dt, pattern = "MMMM D, YYYY") => {
+  return dayjs(dt).format(pattern);
+};
+
+export const isDateBefore = (dt, refDate) => {
+  return dayjs(dt).isBefore(refDate);
+};
+
+export const isDateAfter = (dt, refDate) => {
+  if (refDate) {
+    return dayjs(dt).isAfter(refDate);
+  }
+  return dayjs(dayjs(dt)).isAfter();
+};
+
+export const randomInt = (len = 6) => {
+  return Math.floor(Math.random() * len) + 1;
+};

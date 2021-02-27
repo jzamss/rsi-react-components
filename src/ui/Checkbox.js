@@ -1,27 +1,36 @@
 import React from "react";
-import { Checkboxes } from "mui-rff";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import MuiCheckbox from "@material-ui/core/Checkbox";
 
 const Checkbox = ({
+  context,
   name,
+  expr,
+  checked,
   caption,
-  data,
+  onChange,
   visible = true,
-  disabled = false,
+  disabled = false, 
+  readOnly = false,
 }) => {
+
   if (!visible) return null;
-  let checkboxesData;
-  if (Array.isArray(data)) {
-    checkboxesData = data;
-  } else {
-    checkboxesData = [{ label: caption }];
+
+  const handleChange = (evt) => {
+    onChange(!checked);
   }
 
   return (
-    <Checkboxes
-      label={checkboxesData.length === 1 ? null : caption}
-      name={name}
-      disabled={disabled}
-      data={checkboxesData}
+    <FormControlLabel
+      control={
+        <MuiCheckbox
+          checked={checked}
+          disabled={disabled}
+          onChange={handleChange}
+          readOnly={readOnly}
+        />
+      }
+      label={caption}
     />
   );
 };

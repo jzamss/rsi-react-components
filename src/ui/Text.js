@@ -9,6 +9,7 @@ const Text = ({
   visible = true,
   required = false,
   disabled = false,
+  readOnly = false,
   fullWidth = true,
   textCase = "UPPER",
   type = "text",
@@ -42,6 +43,9 @@ const Text = ({
           onChange={(e) => handleChange(input, e)}
           type={type}
           autoFocus={autoFocus}
+          InputProps={{
+            readOnly
+          }}
         />
       )}
     </Field>

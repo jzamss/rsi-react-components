@@ -11,19 +11,22 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SubmitButton = ({
+const Submit = ({
   caption = "Submit",
   variant = "contained",
   color = "primary",
   size = "small",
   children,
   visible = true,
-  disabled = false
+  disabled = false,
+  submitting = false
 }) => {
-  const form = useForm();
-  const formState = useFormState();
   const classes = useStyles();
+
   if (!visible) return null;
+
+  const form = useForm();
+
   return (
     <MuiButton
       className={classes.button}
@@ -31,9 +34,7 @@ const SubmitButton = ({
       variant={variant}
       color={color}
       size={size}
-      endIcon={
-        form.submitting && <CircularProgress size={18} color="secondary" />
-      }
+      endIcon={submitting && <CircularProgress size={18} color="secondary" />}
       disabled={disabled || form.submitting}
     >
       {caption || children}
@@ -41,18 +42,4 @@ const SubmitButton = ({
   );
 };
 
-// return (
-//   <Button
-//     caption={caption}
-//     action={form.submit}
-//     variant={variant}
-//     color={color}
-//     size={size}
-//     children={children}
-//     visible={visible}
-//     disabled={disabled}
-//     submitting={formState.submitting}
-//   />
-// );
-
-export default SubmitButton;
+export default Submit;

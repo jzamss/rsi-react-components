@@ -27,6 +27,7 @@ const Decimal = ({
   visible = true,
   required = false,
   disabled = false,
+  readOnly = false,
   fullWidth = true,
   textAlign = "right",
 }) => {
@@ -47,6 +48,7 @@ const Decimal = ({
           fullWidth={fullWidth}
           InputProps={{
             inputComponent: DecimalFormatter,
+            readOnly
           }}
           inputProps={{ style: { textAlign } }}
         />

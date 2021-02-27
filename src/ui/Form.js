@@ -5,36 +5,38 @@ import createDecorator from "final-form-focus";
 const focusOnError = createDecorator();
 
 const Form = ({
-  initialValues,
+  initialData = {},
   onSubmit,
   validate,
-  component,
-  render,
   children,
-  decorators = [focusOnError],
+  decorators = [focusOnError]
 }) => {
   const formRef = useRef();
-
-  const handleFormSubmit = (entity) => {
+  const formApi = useRef();
+  
+  const handleFormSubmit = (data) => {
     if (formRef.current && formRef.current.reportValidity()) {
-      onSubmit(entity);
+      if (typeof(onSubmit) === "function") {
+        onSubmit(data, formApi.current);    
+      }
     }
   };
 
   return (
     <RFForm
       onSubmit={handleFormSubmit}
-      initialValues={initialValues}
+      initialValues={initialData}
       validate={validate}
-      component={component}
-      render={render}
       decorators={decorators}
     >
-      {(props) => (
-        <form ref={formRef} onSubmit={props.handleSubmit}>
-          {typeof children === "function" ? children(props) : children}
-        </form>
-      )}
+      {(props) => {
+        formApi.current = props.form;
+        return (
+          <form ref={formRef} onSubmit={props.handleSubmit}>
+            {typeof children === "function" ? children(props) : children}
+          </form>
+        );
+      }}
     </RFForm>
   );
 };

@@ -1,13 +1,17 @@
 import React, { useState, useRef } from "react";
 import { Form, useForm, useFormState } from "react-final-form";
-import ActionBar from "./ActionBar";
-import SubmitButton from "./SubmitButton";
-import BackLink from "./BackLink";
-import Error from "./Error";
-import MsgBox from "./MsgBox";
+import {
+  ActionBar,
+  Submit,
+  BackLink,
+  Error,
+  MsgBox,
+  Subtitle,
+  Spacer
+} from ".";
 
 const Wizard = ({
-  initialValues,
+  initialData,
   onSubmit,
   children,
   showActionBar = true,
@@ -44,12 +48,11 @@ const Wizard = ({
   };
 
   const onSubmitCallback = (
-    success = true,
-    errorMsg,
+    error = false,
     showErrorDialog = false
   ) => {
     setErrorMsg(null);
-    if (success) {
+    if (!error) {
       const values = formApi.current.getState().values;
       const isLastPage = page === React.Children.count(children) - 1;
       if (isLastPage) {
@@ -60,7 +63,7 @@ const Wizard = ({
     } else {
       setShowErrorDialog(showErrorDialog);
       setShowError(true);
-      setErrorMsg(errorMsg.toString());
+      setErrorMsg(error);
     }
   };
 
@@ -71,10 +74,7 @@ const Wizard = ({
 
     const activePage = getActivePage();
     if (activePage.props.onSubmit) {
-      activePage.props.onSubmit(
-        { values, form: formApi.current },
-        onSubmitCallback
-      );
+      activePage.props.onSubmit(values, onSubmitCallback, formApi.current);
     } else {
       onSubmitCallback();
     }
@@ -90,7 +90,7 @@ const Wizard = ({
 
   return (
     <Form
-      initialValues={initialValues}
+      initialValues={initialData}
       validate={validate}
       onSubmit={handleFormSubmit}
     >
@@ -99,18 +99,31 @@ const Wizard = ({
 
         return (
           <form ref={formRef} onSubmit={handleSubmit}>
+            <Subtitle>{activePage.props.caption}</Subtitle>
+            <Spacer />
             {!showErrorDialog && <Error msg={errorMsg} />}
             {showErrorDialog && showError && (
               <MsgBox open={showError} msg={errorMsg} onAccept={resetError} />
             )}
             {activePage}
-            <ActionBar visible={showActionBar}>
+            <Spacer />
+            <ActionBar
+              visible={
+                activePage.props.showActionBar === undefined
+                  ? showActionBar
+                  : activePage.props.showActionBar
+              }
+            >
               {page === 0 && (
                 <BackLink caption="Cancel" action={activePage.props.onCancel} />
               )}
               {page > 0 && <BackLink action={previous} />}
-              {!isLastPage && <SubmitButton caption="Next" />}
-              {isLastPage && <SubmitButton caption="Submit" />}
+              {!isLastPage && (
+                <Submit caption="Next" submitting={form.submitting} />
+              )}
+              {isLastPage && (
+                <Submit caption="Submit" submitting={form.submitting} />
+              )}
             </ActionBar>
             {showFormData && <pre>{JSON.stringify(values, null, 2)}</pre>}
           </form>

@@ -27,6 +27,7 @@ const Integer = ({
   visible = true,
   required = false,
   disabled = false,
+  readOnly = false,
   fullWidth = true,
   textAlign = "right",
 }) => {
@@ -48,7 +49,7 @@ const Integer = ({
           InputProps={{
             inputComponent: IntegerFormatter,
           }}
-          inputProps={{ style: { textAlign } }}
+          inputProps={{ style: { textAlign }, readOnly }}
         />
       )}
     </Field>

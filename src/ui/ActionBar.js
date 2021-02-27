@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "space-between",
     marginTop: theme.spacing(3),
-    borderTop: "solid 1px lightgrey",
   },
   center: {
     flexDirection: "column",
