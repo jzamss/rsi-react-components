@@ -39,6 +39,7 @@ export { default as Lookup } from "./Lookup";
 export { default as Modal } from "./Modal";
 export { default as Mobileno } from "./Mobileno";
 export { default as MsgBox } from "./MsgBox";
+export { default as OnFieldChange } from "./OnFieldChange";
 export { default as Panel } from "./Panel";
 export { default as Page } from "./Page";
 export { default as PageFlow } from "./PageFlow";

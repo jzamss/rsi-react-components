@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { Page, DataContext } from "rsi-react-components";
+import { Content, DataContext } from "rsi-react-components";
 
-const PageFlow = ({ initialData, children, location, pages, ...rest }) => {
+const PageFlow = ({ initialData, children, location, history, pages, ...rest }) => {
   const [step, setStep] = useState(0);
   const [data, setData] = useState(initialData);
-  const [contact, setContact] = useState({});
+  
+  const onComplete = () => {
+    history.goBack();
+  };
+
+  const onCancel = () => {
+    history.goBack();
+  };
+
 
   const moveNextStep = () => {
     setStep((cs) => cs + 1);
@@ -12,10 +20,6 @@ const PageFlow = ({ initialData, children, location, pages, ...rest }) => {
 
   const movePrevStep = () => {
     setStep((cs) => (cs > 0 ? cs - 1 : 0));
-  };
-
-  const onVerifyContact = (contact) => {
-    setContact(contact);
   };
 
   const getActivePage = () => {
@@ -27,8 +31,8 @@ const PageFlow = ({ initialData, children, location, pages, ...rest }) => {
   const compProps = {
     moveNextStep,
     movePrevStep,
-    onVerifyContact,
-    contact,
+    onComplete,
+    onCancel,
     ...rest
   };
 
@@ -38,9 +42,9 @@ const PageFlow = ({ initialData, children, location, pages, ...rest }) => {
 
   return (
     <DataContext.Provider value={[data, updateData]}>
-      <Page>
+      <Content>
         <PageComponent page={activePage} {...compProps} />
-      </Page>
+      </Content>
     </DataContext.Provider>
   );
 };

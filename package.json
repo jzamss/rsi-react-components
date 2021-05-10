@@ -67,6 +67,7 @@
     "format-string-by-pattern": "1.2.2",
     "mui-rff": "3.0.3",
     "react-final-form": "6.5.2",
+    "react-final-form-listeners": "^1.0.3",
     "react-modal": "^3.11.2",
     "react-number-format": "4.4.4",
     "react-text-mask": "^5.4.3",

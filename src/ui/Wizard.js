@@ -6,8 +6,10 @@ import {
   BackLink,
   Error,
   MsgBox,
+  Title,
   Subtitle,
-  Spacer
+  Spacer,
+  Card
 } from ".";
 
 const Wizard = ({
@@ -17,7 +19,9 @@ const Wizard = ({
   showActionBar = true,
   showErrorDialog: initialShowErrorDialog = false,
   showFormData = false,
-  visible = true
+  visible = true,
+  title,
+  subtitle,
 }) => {
   const [page, setPage] = useState(0);
   const [errorMsg, setErrorMsg] = useState();
@@ -89,6 +93,10 @@ const Wizard = ({
   const isLastPage = page === React.Children.count(children) - 1;
 
   return (
+    <Card>
+      <Title>{title}</Title>
+      <Subtitle>{subtitle || page && page.caption}</Subtitle>
+    
     <Form
       initialValues={initialData}
       validate={validate}
@@ -130,6 +138,7 @@ const Wizard = ({
         );
       }}
     </Form>
+    </Card>
   );
 };
 

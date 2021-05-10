@@ -3,9 +3,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MuiCheckbox from "@material-ui/core/Checkbox";
 
 const Checkbox = ({
-  context,
-  name,
-  expr,
   checked,
   caption,
   onChange,
