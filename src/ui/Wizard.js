@@ -21,7 +21,7 @@ const Wizard = ({
   showFormData = false,
   visible = true,
   title,
-  subtitle,
+  subtitle
 }) => {
   const [page, setPage] = useState(0);
   const [errorMsg, setErrorMsg] = useState();
@@ -51,10 +51,7 @@ const Wizard = ({
     return activePage.props.validate ? activePage.props.validate(values) : {};
   };
 
-  const onSubmitCallback = (
-    error = false,
-    showErrorDialog = false
-  ) => {
+  const onSubmitCallback = (error = false, showErrorDialog = false) => {
     setErrorMsg(null);
     if (!error) {
       const values = formApi.current.getState().values;
@@ -95,49 +92,52 @@ const Wizard = ({
   return (
     <Card>
       <Title>{title}</Title>
-      <Subtitle>{subtitle || page && page.caption}</Subtitle>
-    
-    <Form
-      initialValues={initialData}
-      validate={validate}
-      onSubmit={handleFormSubmit}
-    >
-      {({ handleSubmit, form, values }) => {
-        formApi.current = form;
+      <Subtitle>{subtitle || (page && page.caption)}</Subtitle>
 
-        return (
-          <form ref={formRef} onSubmit={handleSubmit}>
-            <Subtitle>{activePage.props.caption}</Subtitle>
-            <Spacer />
-            {!showErrorDialog && <Error msg={errorMsg} />}
-            {showErrorDialog && showError && (
-              <MsgBox open={showError} msg={errorMsg} onAccept={resetError} />
-            )}
-            {activePage}
-            <Spacer />
-            <ActionBar
-              visible={
-                activePage.props.showActionBar === undefined
-                  ? showActionBar
-                  : activePage.props.showActionBar
-              }
-            >
-              {page === 0 && (
-                <BackLink caption="Cancel" action={activePage.props.onCancel} />
+      <Form
+        initialValues={initialData}
+        validate={validate}
+        onSubmit={handleFormSubmit}
+      >
+        {({ handleSubmit, form, values }) => {
+          formApi.current = form;
+
+          return (
+            <form ref={formRef} onSubmit={handleSubmit}>
+              <Subtitle>{activePage.props.caption}</Subtitle>
+              <Spacer />
+              {!showErrorDialog && <Error msg={errorMsg} />}
+              {showErrorDialog && showError && (
+                <MsgBox open={showError} msg={errorMsg} onAccept={resetError} />
               )}
-              {page > 0 && <BackLink action={previous} />}
-              {!isLastPage && (
-                <Submit caption="Next" submitting={form.submitting} />
-              )}
-              {isLastPage && (
-                <Submit caption="Submit" submitting={form.submitting} />
-              )}
-            </ActionBar>
-            {showFormData && <pre>{JSON.stringify(values, null, 2)}</pre>}
-          </form>
-        );
-      }}
-    </Form>
+              {activePage}
+              <Spacer />
+              <ActionBar
+                visible={
+                  activePage.props.showActionBar === undefined
+                    ? showActionBar
+                    : activePage.props.showActionBar
+                }
+              >
+                {page === 0 && (
+                  <BackLink
+                    caption="Cancel"
+                    action={activePage.props.onCancel}
+                  />
+                )}
+                {page > 0 && <BackLink action={previous} />}
+                {!isLastPage && (
+                  <Submit caption="Next" submitting={form.submitting} />
+                )}
+                {isLastPage && (
+                  <Submit caption="Submit" submitting={form.submitting} />
+                )}
+              </ActionBar>
+              {showFormData && <pre>{JSON.stringify(values, null, 2)}</pre>}
+            </form>
+          );
+        }}
+      </Form>
     </Card>
   );
 };
